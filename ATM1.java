@@ -1,11 +1,7 @@
 package package1;
 import java.sql.*;
 import java.util.Scanner;
-
-public class ATM1 {
-
-	
-	
+      public class ATM1 {	
 	    static Scanner check= new Scanner(System.in);
 	    public static void main(String[] args) {
 	        try{
@@ -13,34 +9,27 @@ public class ATM1 {
 	            Class.forName("com.mysql.cj.jdbc.Driver");
 	            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/test", "root", "");
 	            Statement statement = con.createStatement();
-	            
 	             //creating customers table
-	            //String customer_table="CREATE TABLE customers(pin INT(4) PRIMARY KEY, acc_number BIGINT(10) UNIQUE, cust_name VARCHAR(30), acc_balance BIGINT(12))";
-               // statement.execute(customer_table);
+	             //String table_1 ="CREATE TABLE customers(pin INT(4) PRIMARY KEY, acc_number BIGINT(10) UNIQUE, cust_name VARCHAR(30), acc_balance BIGINT(12))";
+                     // statement.execute(table_1);
 
-               // String drop="DROP TABLE customer";
-	           // statement.execute(drop);
-
-	            // initializing the customers table
-	            
-	            
-	           //String cust_insert="INSERT INTO customers(pin, acc_number, cust_name, acc_balance) VALUES (2468, 23467812, 'LUSWATA ANDREW', 20000000)," +
-                //   "(1357, 54372832, 'KIKOMEKO BASHIR',60000000),(1593,24352636, 'MUGOYA SEAN',500000),(2023,34545366,'KISAKYE SONIA', 220000)," +
-                 // "(4444, 12345678, 'BIGO SALAES', 95900000)";
-             //statement.execute(cust_insert);
+	            // initializing/ inserting default values in the customers table
+	            //String default ="INSERT INTO customers(pin, acc_number, cust_name, acc_balance) VALUES (2468, 23467812, 'LUSWATA ANDREW', 20000000)," +
+                    //"(1357, 54372832, 'KIKOMEKO BASHIR',60000000),(1593,24352636, 'MUGOYA SEAN',500000),(2023,34545366,'KISAKYE SONIA', 220000)," +
+                    //"(4444, 12345678, 'BIGO SALAES', 95900000)";
+                    //statement.execute(default);
 
 	            System.out.println("\tWELCOME TO OUR ATM SERVICES\nPlease Press 1 to login to your account");
 	            int response = x.nextInt();
 	            x.nextLine();
-	            
 	            int PIN = 0, acc_Number = 0;
 	            if (response == 1) {
-	                // account number
+	                // Account number
 	                System.out.print("Enter your Account number :");
 	                System.out.println();
 	                acc_Number = x.nextInt();
 	                
-	                // Personal Identification Number
+	                // Personal Identification Number (PIN)
 	                System.out.print("Enter your account PIN :");
 	                System.out.println();
 	                PIN = x.nextInt();
@@ -56,21 +45,19 @@ public class ATM1 {
 	            
 	            if (!resultSet.isBeforeFirst()){
 	                System.out.println("!!!! INCORRECT ACCOUNT DETAILS.PLEASE ENTER YOUR CORRECT ACCOUNT DETAILS !!!!");
-	            }else {
-	                
-	                
-	                String retrieved_name = null;
-	                int retrieved_pin = 0, retrieved_acNo = 0, retrieved_accBal = 0;
+	            }else {           
+	                String traced_name = null;
+	                int traced_pin = 0, traced_acNo = 0, traced_accBal = 0;
 	                while(resultSet.next()){
-	                    retrieved_pin=resultSet.getInt(1);
-	                    retrieved_acNo=resultSet.getInt(2);
-	                    retrieved_name= resultSet.getString(3);
-	                    retrieved_accBal=resultSet.getInt(4);
+	                    traced_pin=resultSet.getInt(1);
+	                    traced_acNo=resultSet.getInt(2);
+	                    traced_name= resultSet.getString(3);
+	                    traced_accBal=resultSet.getInt(4);
 
 	                }
-	                System.out.println("WELCOME "+retrieved_name);
+	                System.out.println("WELCOME  "+ traced_name);
 	                
-	                actions(retrieved_name,retrieved_pin,retrieved_accBal,retrieved_acNo);
+	                customer(traced_name,traced_pin,traced_accBal,traced_acNo);
 	                
 	            }
 
@@ -81,12 +68,10 @@ public class ATM1 {
 	        }
 	    }
 
-	    public static void actions(String mName, int mPin, int mAcc_Bal, int acc_No) throws SQLException {
+	    public static void customer(String mName, int mPin, int mAcc_Bal, int acc_No) throws SQLException {
 	        System.out.println("Select an option ;\n1:Deposit Money\n2: Withdraw Money\n3: View Account Balance.");
-//	        Scanner scanner1=new Scanner(System.in);
 	        int response= check.nextInt();
 	        check.nextLine();
-
 	        if (response == 1) {
 	            deposit(mAcc_Bal, mPin);
 	        } else if (response==2) {
@@ -97,38 +82,31 @@ public class ATM1 {
 	            System.out.println("INVALID RESPONSE");
 	            System.exit(0);
 	        }
-
 	    }
-
 	    private static void checkBalance(int mAcc_Bal) {
 	        System.out.println("Your account balance is: Ush"+mAcc_Bal);
 	    }
-
 	    private static void withdraw(int mAcc_Bal, int pin) throws SQLException {
 	        System.out.print("Withdraw cash\n Amount: ");
-	        int withdrawal=check.nextInt();
+	        int withdraw=check.nextInt();
 	        check.nextLine();
-	        if (withdrawal > mAcc_Bal) {
+	        if (withdraw > mAcc_Bal) {
 	            System.out.println("Insufficient Balance!!!!!!!!!!");
 	        }else {
-	            int new_Bal=mAcc_Bal-withdrawal;
-	            System.out.println("Ush"+withdrawal+" successfully withdrawn!");
-	            
+	            int new_Bal = mAcc_Bal - withdraw;
+	            System.out.println("Ush"+ withdraw +" successfully withdrawn!");
 	            update(new_Bal, pin);
-
 	        }
 	    }
 
 	    private static void deposit(int mAcc_Bal,int pin ) throws SQLException {
 	        System.out.print(" Enter the amount you want to deposit :");
-	        int deposit_amount= check.nextInt();
+	        int deposit= check.nextInt();
 	        check.nextLine();
-	        int new_acc_Bal=mAcc_Bal+deposit_amount;
+	        int new_acc_Bal = mAcc_Bal + deposit;
 	        update(new_acc_Bal,pin);
-	        System.out.println("Deposit transaction was successful\nNew account Balance: Ush"+new_acc_Bal+"\n Thank you for banking with us !)");
-
+	        System.out.println("Deposit transaction was successful\n Thank you for banking with us !)");
 	    }
-
 	    private static void update(int new_Bal, int pin) throws SQLException {
 	        Connection con1 = DriverManager.getConnection("jdbc:mysql://localhost/test", "root", "");
 	        String acc_update=" UPDATE customers SET acc_balance=? WHERE pin=?";
