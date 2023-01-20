@@ -15,7 +15,7 @@ public class ATM1 {
 	            Statement statement = con.createStatement();
 	            
 	             //creating customers table
-	            //String customer_table="CREATE TABLE customers(pin INT(4) PRIMARY KEY, acc_number BIGINT(8) UNIQUE, cust_name VARCHAR(24), acc_balance BIGINT(12))";
+	            //String customer_table="CREATE TABLE customers(pin INT(4) PRIMARY KEY, acc_number BIGINT(10) UNIQUE, cust_name VARCHAR(30), acc_balance BIGINT(12))";
                // statement.execute(customer_table);
 
                // String drop="DROP TABLE customer";
